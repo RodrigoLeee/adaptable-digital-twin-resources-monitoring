@@ -284,7 +284,7 @@ A segunda análise consiste em uma grade de 9 gráficos de barras (3 linhas × 3
 
 Este painel permite identificar, em uma única visualização, como cada dimensão de desempenho e consumo responde ao aumento de carga. A progressão das barras evidencia, por exemplo, que a utilização de CPU cresce de forma não proporcional ao volume de tasks nos cenários de saturação do cluster.
 
-<img src="docs/assets/bar_comparison_full.png" alt="Grade de comparação de métricas agregadas por cenário" border="0">
+<img src="assets/bar_comparison_full.png" alt="Grade de comparação de métricas agregadas por cenário" border="0">
 
 
 
@@ -303,7 +303,7 @@ A reconstrução utiliza uma função de binagem temporal (`task_arrival_curve`)
 A análise temporal é apresentada em uma grade de 4 painéis (2 × 2), com todos os cenários sobrepostos em cada painel para facilitar a comparação.
 
 
-<img src="docs/assets/temporal_tasks.png" alt="Evolução temporal reconstruída" border="0">
+<img src="assets/temporal_tasks.png" alt="Evolução temporal reconstruída" border="0">
 
 
 
@@ -316,7 +316,7 @@ A análise de distribuições complementa as médias da tabela-resumo ao expor a
 
 **Histogramas sobrepostos:** apresentam a distribuição de frequências de cada métrica com transparência (`alpha=0.55`) para permitir a sobreposição dos sete cenários. A sobreposição de histogramas revela, por exemplo, se as distribuições de wait time dos cenários de baixa carga são concentradas próximas a zero enquanto as dos cenários de alta carga apresentam dispersão significativa.
 
-<img src="docs/assets/temporal_tasks.png" alt="Histogramas sobrepostos de wait time, exec time e total time & Histogramas sobrepostos de wait time, exec time e total time" border="0">
+<img src="assets/temporal_tasks.png" alt="Histogramas sobrepostos de wait time, exec time e total time & Histogramas sobrepostos de wait time, exec time e total time" border="0">
 
 ## 7.7 Perfil dos Hosts
 
@@ -326,7 +326,7 @@ A visualização é composta por uma grade de 6 boxplots (2 × 3), cada um repre
 
 > *[Figura: Perfil dos hosts — boxplots de CPU usage, CPU demand, power draw, energia, tasks running e tasks terminated por cenário — a ser inserida]*
 
-<img src="docs/assets/host_profiles.png" alt="boxplots de CPU usage, CPU demand, power draw, energia, tasks running e tasks terminated por cenário" border="0">
+<img src="assets/host_profiles.png" alt="boxplots de CPU usage, CPU demand, power draw, energia, tasks running e tasks terminated por cenário" border="0">
 
 ## 7.8 Relações entre Métricas
 
@@ -345,7 +345,7 @@ Cada painel inclui uma linha de tendência linear ajustada por mínimos quadrado
 
 > *[Figura: Gráficos de dispersão entre pares de métricas agregadas — a ser inserida]*
 
-<img src="docs/assets/scatter_relations.png" alt="Gráficos de dispersão entre pares de métricas agregadas" border="0">
+<img src="assets/scatter_relations.png" alt="Gráficos de dispersão entre pares de métricas agregadas" border="0">
 
 ## 7.9 Curvas de Escalabilidade
 
@@ -355,7 +355,7 @@ O comportamento dessas curvas tem implicação direta para o gêmeo digital: des
 
 > *[Figura: Curvas de escalabilidade — energia, wait time e duração vs. número de tasks — a ser inserida]*
 
-<img src="docs/assets/scalability_curves.png" alt="Curvas de escalabilidade" border="0">
+<img src="assets/scalability_curves.png" alt="Curvas de escalabilidade" border="0">
 
 ## 7.10 Análise de Eficiência Energética
 
@@ -369,7 +369,7 @@ A visualização é complementada por um terceiro painel com a potência média 
 
 > *[Figura: Análise de eficiência energética — tasks/kWh, energia/task e potência média por host — a ser inserida]*
 
-<img src="docs/assets/efficiency_analysis.png" alt="Análise de eficiência energética — tasks/kWh, energia/task e potência média por host" border="0">
+<img src="assets/efficiency_analysis.png" alt="Análise de eficiência energética — tasks/kWh, energia/task e potência média por host" border="0">
 
 ## 7.11 Decomposição do Tempo das Tasks
 
@@ -383,7 +383,7 @@ Esta distinção é diretamente relevante para o sistema de recomendações do g
 
 > *[Figura: Decomposição do tempo das tasks — barras empilhadas absolutas e percentuais — a ser inserida]*
 
-<img src="docs/assets/time_decomposition.png" alt="Decomposição do tempo das tasks — barras empilhadas absolutas e percentuais" border="0">
+<img src="assets/time_decomposition.png" alt="Decomposição do tempo das tasks — barras empilhadas absolutas e percentuais" border="0">
 
 ## 7.12 Balanceamento de Carga por Host
 
@@ -395,7 +395,7 @@ Uma tabela de resumo complementa a visualização, reportando para cada cenário
 
 > *[Figura: Balanceamento de carga por host — distribuição de tasks entre hosts por cenário — a ser inserida]*
 
-<img src="docs/assets/load_balance_per_host.png" alt="Balanceamento de carga por host — distribuição de tasks entre hosts por cenário" border="0">
+<img src="assets/load_balance_per_host.png" alt="Balanceamento de carga por host — distribuição de tasks entre hosts por cenário" border="0">
 
 ## 7.13 Correlação entre Métricas
 
@@ -407,7 +407,7 @@ Correlações fortes entre volume de tasks e consumo energético validam a coer�
 
 > *[Figura: Heatmap de correlação entre métricas agregadas por cenário — a ser inserida]*
 
-<img src="docs/assets/correlation_heatmap.png" alt="Heatmap de correlação entre métricas agregadas por cenário" border="0">
+<img src="assets/correlation_heatmap.png" alt="Heatmap de correlação entre métricas agregadas por cenário" border="0">
 
 ## 7.14 Métricas Derivadas e Dataset Final
 
