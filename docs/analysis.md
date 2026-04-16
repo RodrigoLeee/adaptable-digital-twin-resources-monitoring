@@ -463,18 +463,4 @@ Este documento cobre apenas uma das seis topologias definidas no projeto. As dem
 
 # Referências
 
-OPENDC. *OpenDC: Open Datacenter Simulator*. Disponível em: https://opendc.org. Acesso em: nov. 2025.
 
-AMAZON WEB SERVICES. *AWS Pricing API — EC2 Instance Pricing*. Disponível em: https://aws.amazon.com/ec2/pricing/on-demand. Acesso em: nov. 2025.
-
-FUJII, T. Y. et al. A Digital Twin Architecture Model Applied with MLOps Techniques to Improve Short-Term Energy Consumption Prediction. *Machines*, v. 10, n. 1, art. 23, 2021. DOI: 10.3390/machines10010023.
-
-KIMMEL, R. et al. Digital Twins for Software Engineering Processes. *arXiv*, arXiv:2510.05768 [cs.SE], 2025. Disponível em: https://arxiv.org/abs/2510.05768.
-
-BASS, L.; CLEMENTS, P.; KAZMAN, R. *Software Architecture in Practice*. 4. ed. Upper Saddle River: Addison-Wesley, 2021.
-
-INTERNATIONAL ORGANIZATION FOR STANDARDIZATION; INTERNATIONAL ELECTROTECHNICAL COMMISSION. *ISO/IEC 25010*: Systems and software Quality Requirements and Evaluation (SQuaRE). Geneva: ISO/IEC, 2023.
-
-FLEXERA. *2025 State of the Cloud Report*. Flexera, 2025. Disponível em: https://info.flexera.com/CM-REPORT-State-of-the-Cloud. Acesso em: nov. 2025.
-
-GARTNER. Gartner Forecasts Worldwide Public Cloud End-User Spending to Reach $723 Billion in 2025. Stamford: Gartner, 2025. Disponível em: https://www.gartner.com/en/newsroom/press-releases/2024-11-19-gartner-forecasts-worldwide-public-cloud-end-user-spending-to-total-723-billion-dollars-in-2025. Acesso em: nov. 2025.
