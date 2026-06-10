@@ -1,0 +1,78 @@
+{
+  "model_version": "1.0.0",
+  "topology": "m7i.xlarge",
+  "trained_on": "2026-03-30T11:49:46.501618",
+  "n_scenarios": 7,
+  "feature_cols": [
+    "n_unique_tasks",
+    "exec_mean_s",
+    "sim_duration_h"
+  ],
+  "target_cols": [
+    "energy_total_kwh",
+    "wait_mean_s",
+    "estimated_cost_usd",
+    "cpu_util_mean_pct",
+    "saturation_pct",
+    "completion_rate_pct"
+  ],
+  "primary_predictor": "n_unique_tasks",
+  "positioning_method": "euclidean_knn_k3_normalized",
+  "validation": {
+    "method": "leave-one-out",
+    "results": [
+      {
+        "target": "energy_total_kwh",
+        "degree": 2,
+        "mae_loo": 0.0016249383115455002,
+        "r2": 0.9715642048744398
+      },
+      {
+        "target": "wait_mean_s",
+        "degree": 1,
+        "mae_loo": 0.0604896720869878,
+        "r2": 0.4452395817002811
+      },
+      {
+        "target": "estimated_cost_usd",
+        "degree": 2,
+        "mae_loo": 0.00480608458676129,
+        "r2": 0.9059281937061008
+      },
+      {
+        "target": "cpu_util_mean_pct",
+        "degree": 2,
+        "mae_loo": 2.683293309986133e-05,
+        "r2": 0.9040591813031801
+      },
+      {
+        "target": "saturation_pct",
+        "degree": 1,
+        "mae_loo": 0.0,
+        "r2": 1.0
+      },
+      {
+        "target": "completion_rate_pct",
+        "degree": 1,
+        "mae_loo": 4.06024420434343e-14,
+        "r2": 0.0
+      }
+    ]
+  },
+  "pricing": {
+    "price_usd_per_h": 0.1904,
+    "instance_type": "m7i.xlarge",
+    "pricing_model": "On-Demand",
+    "citation": "AWS EC2 m7i.xlarge on-demand: USD 0.1904/h (fallback — execute fetch_pricing.py)",
+    "bibtex": "",
+    "source": "AWS Pricing API (public endpoint, no authentication required)",
+    "note": "Price loaded from pricing/pricing_metadata.json via fetch_pricing.py"
+  },
+  "artifact_format": "json",
+  "compatible_runtimes": [
+    "python",
+    "node.js",
+    "any"
+  ],
+  "notes": "Modelo treinado com 7 cenários. Extrapolação além do range [10, 350] tasks deve ser tratada com cautela."
+}
