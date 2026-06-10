@@ -1,4 +1,4 @@
-# Projeto
+# Gêmeo Digital Adaptável ao Cliente para Monitoramento de Consumo de Recursos em Infraestrutura de Nuvem
 
 ## 1. Introdução
 
@@ -48,37 +48,45 @@
 </div>
 <br/>
 
-## 5. Mapa de Componentes UML
+## 5. Requisitos do Projeto
 
-## 6. Requisitos do Projeto
+### 5.1 Requisitos Não Funcionais
 
-### 6.1 Requisitos Não Funcionais
-
-#### 6.1.1 Definição dos Requisitos Não Funcionais
+#### 5.1.1 Definição dos Requisitos Não Funcionais
 - Confiabilidade (e 1 SLA)
 - Disponbilidade (e 1 SLA)
 - Segurança (e 1 SLA)
-#### 6.1.2 Táticas Arquiteturais dos Requisitos Não Funcionais
+#### 5.1.2 Táticas Arquiteturais dos Requisitos Não Funcionais
 
-## 7. Solução Integração
+## 6. Solução Integração
 
-## 8. Componentes Serviços Legado
+&emsp;A figura a seguir apresenta o diagrama de integração do sistema, ilustrando como as três camadas do gêmeo digital se comunicam. O collector é responsável por coletar e normalizar o estado da infraestrutura — métricas de CPU, memória e energia — e encaminhá-lo à API. A API carrega o modelo de recomendação treinado, processa o estado recebido e retorna recomendações contextualizadas ao perfil do cliente. O dashboard consome essas recomendações e as exibe ao operador em tempo real via SSE.
 
-## 9. Modelagem de Dados
+<br/>
+<div align="center">
+  <sub>Figura 3 - Solução de Integração </sub> <br>
+  <img src="assets/solucao_integracao.png" width="100%" /> <br>
+  <sup>Fonte: Material produzido pelos autores (2026)</sup> <br>
+</div>
+<br/>
 
-## 10. Solução Técnica (Design)
+## 7. Componentes Serviços Legado
 
-## 11. Componentes Adotados em relação as Táticas Arquiteturais
+## 8. Modelagem de Dados
 
-## 12. Especificação da Solução Técnica
+## 9. Solução Técnica (Design)
 
-## 13. Implementação dos Mecanismos Arquiteturais
+## 10. Componentes Adotados em relação as Táticas Arquiteturais
 
-## 14. Mapeamento Técnico de Infraestrutura e Implantação
+## 11. Especificação da Solução Técnica
 
-## 15. Justificativa das Escolhas de Implantação
+## 12. Implementação dos Mecanismos Arquiteturais
 
-## 16. Considerações sobre Desempenho e Segurança
+## 13. Mapeamento Técnico de Infraestrutura e Implantação
+
+## 14. Justificativa das Escolhas de Implantação
+
+## 15. Considerações sobre Desempenho e Segurança
 -------------------------------------------------------
 --------------------------------------------
 
