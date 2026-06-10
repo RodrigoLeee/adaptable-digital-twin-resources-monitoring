@@ -1,0 +1,49 @@
+{
+  "description": "Thresholds derivados dos 7 cenários simulados na topologia m7i.xlarge",
+  "topology": "m7i.xlarge",
+  "status_thresholds": {
+    "cpu_util_pct": {
+      "ok": 0.0,
+      "attention": 0.0,
+      "critical": 4.000000000000004e-05,
+      "unit": "percent"
+    },
+    "wait_mean_s": {
+      "ok": 0.424192,
+      "attention": 0.465644,
+      "critical": 0.51386,
+      "unit": "seconds"
+    },
+    "saturation_pct": {
+      "ok": 0.0,
+      "attention": 5.0,
+      "critical": 15.0,
+      "unit": "percent"
+    },
+    "completion_rate_pct": {
+      "ok": 99.0,
+      "attention": 95.0,
+      "critical": 90.0,
+      "unit": "percent",
+      "direction": "lower_is_worse"
+    }
+  },
+  "capacity": {
+    "max_tasks_observed": 350,
+    "max_energy_kwh_observed": 0.020069,
+    "max_cost_usd_observed": 0.024,
+    "n_hosts": 100
+  },
+  "action_templates": {
+    "scale_up": "Scale up: increase active hosts -- load approaching observed maximum capacity",
+    "scale_down": "Scale down: reduce active hosts -- cluster oversized for current load",
+    "energy_ok": "Energy consumption within safe envelope",
+    "energy_warning": "Energy consumption above 66th percentile of simulated scenarios",
+    "latency_ok": "Wait time within normal parameters",
+    "latency_high": "Wait time elevated -- review scheduling policy",
+    "cost_ok": "Estimated cost within configured SLA budget",
+    "cost_over": "Estimated cost exceeds configured SLA budget",
+    "completion_ok": "Completion rate nominal -- no action required",
+    "completion_low": "Completion rate below expected -- investigate task failures"
+  }
+}

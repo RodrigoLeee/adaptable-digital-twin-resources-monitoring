@@ -1,0 +1,95 @@
+{
+  "model_version": "1.0.0",
+  "topology": "m7i.xlarge",
+  "timestamp": "2026-04-06T12:26:52.831Z",
+  "input_state": {
+    "n_tasks_active": 100,
+    "exec_mean_s": 30,
+    "sim_duration_h": 8,
+    "energy_consumed_kwh": 400,
+    "wait_mean_s": 5,
+    "hosts_active": 10
+  },
+  "sla_config": {
+    "max_energy_kwh": 1000,
+    "max_wait_s": 60,
+    "max_cost_usd": 500,
+    "max_cpu_pct": 80
+  },
+  "positioning": {
+    "nearest_scenario": "workload_1",
+    "similarity_pct": 0.02,
+    "neighbors": [
+      "workload_0",
+      "workload_2"
+    ],
+    "distances": {
+      "workload_1": 10488.5762,
+      "workload_0": 10488.7548,
+      "workload_2": 10489.3545,
+      "workload_3": 10490.3814,
+      "workload_4": 10490.6334,
+      "workload_6": 10491.0001,
+      "workload_5": 10491.0171
+    }
+  },
+  "predictions": {
+    "energy_total_kwh": 0.01234676,
+    "wait_mean_s": 0.41816384,
+    "estimated_cost_usd": 15.232,
+    "cpu_util_mean_pct": 0,
+    "saturation_pct": 0,
+    "completion_rate_pct": 100
+  },
+  "status": "ok",
+  "warnings": [],
+  "recommendations": [
+    {
+      "priority": 1,
+      "category": "capacity",
+      "action": "Load within normal operational envelope",
+      "detail": "100 active tasks",
+      "impact": "Headroom: 250 tasks until maximum capacity"
+    },
+    {
+      "priority": 2,
+      "category": "energy",
+      "action": "Energy consumption within safe envelope",
+      "detail": "Predicted: 0.01235 kWh",
+      "impact": "Energy margin: 100%"
+    },
+    {
+      "priority": 3,
+      "category": "latency",
+      "action": "Wait time within normal parameters",
+      "detail": "Predicted: 0.418s -- within normal range",
+      "impact": "No action required"
+    },
+    {
+      "priority": 4,
+      "category": "cost",
+      "action": "Estimated cost within configured SLA budget",
+      "detail": "Predicted: $15.2320",
+      "impact": "Cost margin: 97%"
+    },
+    {
+      "priority": 2,
+      "category": "capacity",
+      "action": "CPU utilization within SLA limit",
+      "detail": "Predicted: 0.0% | SLA limit: 80%",
+      "impact": "Margin: 80.0pp"
+    },
+    {
+      "priority": 5,
+      "category": "reliability",
+      "action": "Completion rate nominal -- no action required",
+      "detail": "Predicted: 100.0%",
+      "impact": "No action required"
+    }
+  ],
+  "headroom": {
+    "tasks_until_max_observed": 250,
+    "energy_margin_pct": 100,
+    "cost_margin_pct": 97
+  }
+}

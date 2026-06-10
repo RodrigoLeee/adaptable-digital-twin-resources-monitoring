@@ -1,0 +1,89 @@
+{
+  "model_version": "1.0.0",
+  "topology": "m7i.xlarge",
+  "timestamp": "2026-03-30T11:49:46.685665",
+  "input_state": {
+    "n_tasks_active": 110,
+    "exec_mean_s": 0.22,
+    "sim_duration_h": 0.0015,
+    "energy_consumed_kwh": 0.011,
+    "wait_mean_s": 0.44,
+    "hosts_active": 100
+  },
+  "sla_config": {
+    "max_energy_kwh": 0.015,
+    "max_wait_s": 0.55,
+    "max_cost_usd": 0.008
+  },
+  "positioning": {
+    "nearest_scenario": "workload_3",
+    "similarity_pct": 76.93,
+    "neighbors": [
+      "workload_4",
+      "workload_2"
+    ],
+    "distances": {
+      "workload_3": 0.6276,
+      "workload_4": 1.0987,
+      "workload_2": 1.1658,
+      "workload_5": 1.8016,
+      "workload_1": 1.9826,
+      "workload_0": 2.4733,
+      "workload_6": 2.7205
+    }
+  },
+  "predictions": {
+    "energy_total_kwh": 0.01166884,
+    "wait_mean_s": 0.42238896,
+    "estimated_cost_usd": 0.02856,
+    "cpu_util_mean_pct": 0.0,
+    "saturation_pct": 0.0,
+    "completion_rate_pct": 100.0
+  },
+  "status": "attention",
+  "warnings": [
+    "Predicted cost ($0.0286) exceeds SLA budget ($0.0080)"
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "category": "capacity",
+      "action": "Load within normal operational envelope",
+      "detail": "110 active tasks",
+      "impact": "Headroom: 240 tasks until maximum capacity"
+    },
+    {
+      "priority": 2,
+      "category": "energy",
+      "action": "Energy consumption within safe envelope",
+      "detail": "Predicted: 0.01167 kWh",
+      "impact": "Energy margin: 22.2%"
+    },
+    {
+      "priority": 3,
+      "category": "latency",
+      "action": "Wait time within normal parameters",
+      "detail": "Predicted: 0.422s -- within normal range",
+      "impact": "No action required"
+    },
+    {
+      "priority": 4,
+      "category": "cost",
+      "action": "Estimated cost exceeds configured SLA budget",
+      "detail": "Predicted: $0.0286 | Limit: $0.0080",
+      "impact": "Excess: $0.0206"
+    },
+    {
+      "priority": 5,
+      "category": "reliability",
+      "action": "Completion rate nominal -- no action required",
+      "detail": "Predicted: 100.0%",
+      "impact": "No action required"
+    }
+  ],
+  "headroom": {
+    "tasks_until_max_observed": 240,
+    "energy_margin_pct": 41.9,
+    "cost_margin_pct": 0
+  }
+}

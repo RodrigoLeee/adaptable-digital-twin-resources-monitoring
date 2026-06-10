@@ -1,0 +1,113 @@
+{
+  "energy_total_kwh": {
+    "coefficients": [
+      2.0037933541148897e-07,
+      -0.00010987148055414546,
+      0.021330115774722908
+    ],
+    "degree": 2,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 0.0016249383115455002,
+    "r2_train": 0.9715642048744398,
+    "y_range": [
+      0.006998,
+      0.020069
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  },
+  "wait_mean_s": {
+    "coefficients": [
+      0.0004225119423825966,
+      0.37591264790181533
+    ],
+    "degree": 1,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 0.0604896720869878,
+    "r2_train": 0.4452395817002811,
+    "y_range": [
+      0.2971,
+      0.5432
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  },
+  "estimated_cost_usd": {
+    "coefficients": [
+      -3.58006463250239e-07,
+      0.00016306145200834415,
+      0.004627255026686675
+    ],
+    "degree": 2,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 0.00480608458676129,
+    "r2_train": 0.9059281937061008,
+    "y_range": [
+      0.0048,
+      0.024
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  },
+  "cpu_util_mean_pct": {
+    "coefficients": [
+      1.907362786114504e-09,
+      -4.4069000450266786e-07,
+      1.236606153146527e-05
+    ],
+    "degree": 2,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 2.683293309986133e-05,
+    "r2_train": 0.9040591813031801,
+    "y_range": [
+      0.0,
+      0.0001
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  },
+  "saturation_pct": {
+    "coefficients": [
+      0.0,
+      0.0
+    ],
+    "degree": 1,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 0.0,
+    "r2_train": 1.0,
+    "y_range": [
+      0.0,
+      0.0
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  },
+  "completion_rate_pct": {
+    "coefficients": [
+      0.0,
+      99.99999999999999
+    ],
+    "degree": 1,
+    "input_feature": "n_unique_tasks",
+    "mae_loo": 4.06024420434343e-14,
+    "r2_train": 0.0,
+    "y_range": [
+      100.0,
+      100.0
+    ],
+    "x_range": [
+      10.0,
+      350.0
+    ]
+  }
+}
