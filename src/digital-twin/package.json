@@ -1,0 +1,34 @@
+{
+  "name": "digital-twin-orchestrator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Orquestrador do gêmeo digital — sobe broker + api + collector + producer (+ dashboard) de uma vez ou por partes",
+  "scripts": {
+    "broker:up": "docker compose up -d",
+    "broker:down": "docker compose down",
+    "broker:wait": "node scripts/wait-broker.mjs",
+    "topics": "node scripts/topics.mjs",
+
+    "install:api": "npm --prefix digital-twin-api install",
+    "install:collector": "npm --prefix digital-twin-collector install",
+    "install:dashboard": "npm --prefix digital-twin-dashboard install",
+    "install:producer": "node scripts/pip-install.mjs",
+    "install:all": "npm run install:api && npm run install:collector && npm run install:producer && npm run install:dashboard",
+
+    "dev:api": "npm --prefix digital-twin-api run dev",
+    "dev:collector": "npm --prefix digital-twin-collector run dev",
+    "dev:producer": "node scripts/run-producer.mjs",
+    "dev:dashboard": "npm --prefix digital-twin-dashboard run dev",
+
+    "dev": "concurrently -k -n api,collector,producer -c blue,green,magenta \"npm:dev:api\" \"npm:dev:collector\" \"npm:dev:producer\"",
+    "dev:full": "concurrently -k -n api,collector,producer,dash -c blue,green,magenta,cyan \"npm:dev:api\" \"npm:dev:collector\" \"npm:dev:producer\" \"npm:dev:dashboard\"",
+
+    "up": "npm run broker:up && npm run broker:wait && npm run topics && npm run dev",
+    "up:full": "npm run broker:up && npm run broker:wait && npm run topics && npm run dev:full",
+    "down": "npm run broker:down",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

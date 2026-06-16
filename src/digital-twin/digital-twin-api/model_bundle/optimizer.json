@@ -1,0 +1,23 @@
+{
+  "method": "min_cost_energy_under_sla_v1",
+  "description": "Dado um workload, calcula o menor n. de hosts que atende a demanda de compute na banda-alvo de utilizacao, minimizando custo+energia sob SLA. Custo = hosts * duracao_h * price; energia = power(util) * hosts * duracao_h.",
+  "topology": "m7i.xlarge",
+  "cores_per_host": 4,
+  "n_hosts_topology": 100,
+  "max_hosts": 100,
+  "min_hosts": 1,
+  "idle_power_w": 70.0,
+  "max_power_w": 200.0,
+  "power_per_host_idle_kw": 0.07,
+  "power_per_host_idle_kw_derived": 0.070526,
+  "price_usd_per_h": 0.1904,
+  "avg_cores_per_task": 2.0543,
+  "target_util": 0.7,
+  "sla_defaults": {
+    "min_completion_rate_pct": 99.0,
+    "max_wait_s": 0.55,
+    "max_saturation_pct": 5.0
+  },
+  "demand_model": "littles_law: concurrency = n_tasks * exec_mean_s / window_s",
+  "notes": "Os 7 cenarios simulados rodaram com 100 hosts fixos e utilizacao ~0% (evidencia de sobre-provisionamento). O otimizador dimensiona o cluster a partir da demanda de compute estimada, nao por regressao sobre n. de hosts."
+}

@@ -1,0 +1,2 @@
+# node_modules do orquestrador (apenas desta pasta, não dos subprojetos)
+/node_modules/

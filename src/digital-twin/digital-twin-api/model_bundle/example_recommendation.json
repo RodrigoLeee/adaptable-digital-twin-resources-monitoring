@@ -1,7 +1,7 @@
 {
   "model_version": "1.0.0",
   "topology": "m7i.xlarge",
-  "timestamp": "2026-03-30T11:49:46.685665",
+  "timestamp": "2026-06-15T23:16:55.813775",
   "input_state": {
     "n_tasks_active": 110,
     "exec_mean_s": 0.22,
@@ -40,6 +40,33 @@
     "saturation_pct": 0.0,
     "completion_rate_pct": 100.0
   },
+  "optimization": {
+    "method": "min_cost_energy_under_sla_v1",
+    "current_config": {
+      "hosts": 100
+    },
+    "recommended_config": {
+      "hosts": 4
+    },
+    "demand": {
+      "concurrency_tasks": 4.4815,
+      "cores_required": 9.2063,
+      "utilization_at_recommended_pct": 57.54
+    },
+    "projected": {
+      "cost_usd": 0.0011424,
+      "energy_kwh": 0.000966,
+      "wait_mean_s": 0.44,
+      "completion_rate_pct": 100.0
+    },
+    "savings": {
+      "cost_usd": 0.0274176,
+      "energy_kwh": 0.009534,
+      "hosts": 96,
+      "pct": 96.0
+    },
+    "feasible": true
+  },
   "status": "attention",
   "warnings": [
     "Predicted cost ($0.0286) exceeds SLA budget ($0.0080)"
@@ -48,9 +75,9 @@
     {
       "priority": 1,
       "category": "capacity",
-      "action": "Load within normal operational envelope",
-      "detail": "110 active tasks",
-      "impact": "Headroom: 240 tasks until maximum capacity"
+      "action": "Scale down: reduce active hosts -- cluster oversized for current load",
+      "detail": "Current: 100 hosts | Optimal: 4 hosts | Util at optimal: 57.5%",
+      "impact": "Savings: 96 hosts (96.0%) | Cost: -$0.02742 | Energy: -0.00953 kWh"
     },
     {
       "priority": 2,
