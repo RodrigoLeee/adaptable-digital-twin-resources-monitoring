@@ -1,12 +1,16 @@
 import { ModelBundle, DatacenterState, SLAConfig, RecommendationOutput, RecommendationItem } from '../types';
 import { scaleInput, predict, knnFind } from './inference';
+import { findOptimalConfig } from './optimizer';
 
 export function recommend(
   state: DatacenterState,
   sla: SLAConfig,
   bundle: ModelBundle,
 ): RecommendationOutput {
-  const { predictor, positioner, scaler, rules, metadata } = bundle;
+  const { predictor, positioner, scaler, rules, optimizer, metadata } = bundle;
+
+  // --- Layer 0: Optimization (right-sizing under SLA) ---
+  const optimization = findOptimalConfig(state, sla, optimizer);
 
   // --- Layer 1: Positioning (KNN) ---
   const rawFeatures = [state.n_tasks_active, state.exec_mean_s, state.sim_duration_h];
@@ -53,43 +57,51 @@ export function recommend(
     else if (status === 'ok') status = 'attention';
   };
 
-  // 1. Capacity
+  // 1. Capacity — driven by the optimizer's current→optimal host gap
   const tasksRemaining = cap.max_tasks_observed - state.n_tasks_active;
   const capacityPct = state.n_tasks_active / cap.max_tasks_observed;
+  const curHosts = optimization.current_config.hosts;
+  const optHosts = optimization.recommended_config.hosts;
+  const hostGap = curHosts - optHosts;
+
   if (capacityPct >= 0.9) {
+    // Load near the maximum observed envelope: prioritize headroom over savings.
     escalate('critical');
     warnings.push(`Task load (${state.n_tasks_active}) near maximum observed capacity (${cap.max_tasks_observed})`);
     recs.push({
       priority: 1,
       category: 'capacity',
       action: tpl['scale_up'],
-      detail: `${state.n_tasks_active} active tasks`,
+      detail: `${state.n_tasks_active} active tasks — optimal ${optHosts} hosts at ${optimization.demand.utilization_at_recommended_pct}% utilization`,
       impact: `Only ${tasksRemaining} tasks until maximum capacity`,
     });
-  } else if (capacityPct >= 0.7) {
+  } else if (hostGap > 0 && optimization.feasible) {
+    // Over-provisioned: recommend right-sizing down to the optimal host count.
+    if (optimization.savings.pct >= 50) escalate('attention');
+    recs.push({
+      priority: 1,
+      category: 'capacity',
+      action: tpl['scale_down'],
+      detail: `Right-size ${curHosts} → ${optHosts} hosts (${hostGap} fewer) to reach ${optimization.demand.utilization_at_recommended_pct}% utilization`,
+      impact: `Saves $${optimization.savings.cost_usd.toFixed(4)} and ${optimization.savings.energy_kwh.toFixed(5)} kWh (${optimization.savings.pct}% fewer hosts)`,
+    });
+  } else if (hostGap < 0 && optimization.feasible) {
+    // Under-provisioned for demand: scale up to the optimal host count.
     escalate('attention');
     recs.push({
       priority: 1,
       category: 'capacity',
       action: tpl['scale_up'],
-      detail: `${state.n_tasks_active} active tasks`,
-      impact: `Headroom: ${tasksRemaining} tasks until maximum capacity`,
-    });
-  } else if (capacityPct < 0.2) {
-    recs.push({
-      priority: 1,
-      category: 'capacity',
-      action: tpl['scale_down'],
-      detail: `${state.n_tasks_active} active tasks`,
-      impact: `Headroom: ${tasksRemaining} tasks until maximum capacity`,
+      detail: `Scale ${curHosts} → ${optHosts} hosts to meet demand (${optimization.demand.cores_required} cores required)`,
+      impact: `Target utilization: ${optimization.demand.utilization_at_recommended_pct}%`,
     });
   } else {
     recs.push({
       priority: 1,
       category: 'capacity',
-      action: 'Load within normal operational envelope',
-      detail: `${state.n_tasks_active} active tasks`,
-      impact: `Headroom: ${tasksRemaining} tasks until maximum capacity`,
+      action: 'Cluster sized at optimum for current load',
+      detail: `${curHosts} hosts — optimal ${optHosts} at ${optimization.demand.utilization_at_recommended_pct}% utilization`,
+      impact: `Headroom: ${tasksRemaining} tasks until maximum observed capacity`,
     });
   }
 
@@ -253,6 +265,7 @@ export function recommend(
       distances: distancesMap,
     },
     predictions,
+    optimization,
     status,
     warnings,
     recommendations: recs,

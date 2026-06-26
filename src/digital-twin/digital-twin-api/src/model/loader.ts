@@ -18,6 +18,7 @@ export function loadModelBundle(): ModelBundle {
     scaler: read('scaler.json'),
     scenarioDb: read('scenario_db.json'),
     rules: read('rules.json'),
+    optimizer: read('optimizer.json'),
     metadata: read('model_metadata.json'),
   };
 

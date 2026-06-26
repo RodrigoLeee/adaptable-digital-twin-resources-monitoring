@@ -6,6 +6,7 @@ import collectParquetRouter from './routes/collectParquet';
 import statusRouter from './routes/status';
 import eventsRouter from './routes/events';
 import { startScheduledCollector } from './collectors/scheduledCollector';
+import { startKafkaConsumer } from './consumers/kafkaConsumer';
 import logger from './logger';
 
 const app = express();
@@ -32,5 +33,17 @@ const PORT = parseInt(process.env.PORT || '3001', 10);
 
 app.listen(PORT, () => {
   logger.info(`digital-twin-collector running on port ${PORT}`);
-  startScheduledCollector();
+
+  // Event-driven mode (default): consume the workload stream from Kafka.
+  if (process.env.ENABLE_KAFKA !== 'false') {
+    startKafkaConsumer().catch((err) => {
+      logger.error(`Kafka consumer failed to start: ${err instanceof Error ? err.message : err}`);
+    });
+  }
+
+  // Legacy pull mode (opt-in): poll parquet output produced after simulations.
+  if (process.env.ENABLE_PARQUET_POLLING === 'true') {
+    logger.info('Parquet polling enabled (legacy mode)');
+    startScheduledCollector();
+  }
 });

@@ -78,6 +78,30 @@ export interface ScenarioRecord {
   cost_per_task_usd: number;
 }
 
+export interface Optimizer {
+  method: string;
+  description: string;
+  topology: string;
+  cores_per_host: number;
+  n_hosts_topology: number;
+  max_hosts: number;
+  min_hosts: number;
+  idle_power_w: number;
+  max_power_w: number;
+  power_per_host_idle_kw: number;
+  power_per_host_idle_kw_derived: number;
+  price_usd_per_h: number;
+  avg_cores_per_task: number;
+  target_util: number;
+  sla_defaults: {
+    min_completion_rate_pct: number;
+    max_wait_s: number;
+    max_saturation_pct: number;
+  };
+  demand_model: string;
+  notes: string;
+}
+
 export interface ModelMetadata {
   model_version: string;
   topology: string;
@@ -143,6 +167,30 @@ export interface RecommendationItem {
   impact: string;
 }
 
+export interface OptimizationResult {
+  method: string;
+  current_config: { hosts: number };
+  recommended_config: { hosts: number };
+  demand: {
+    concurrency_tasks: number;
+    cores_required: number;
+    utilization_at_recommended_pct: number;
+  };
+  projected: {
+    cost_usd: number;
+    energy_kwh: number;
+    wait_mean_s: number;
+    completion_rate_pct: number;
+  };
+  savings: {
+    cost_usd: number;
+    energy_kwh: number;
+    hosts: number;
+    pct: number;
+  };
+  feasible: boolean;
+}
+
 export interface RecommendationOutput {
   model_version: string;
   topology: string;
@@ -156,6 +204,7 @@ export interface RecommendationOutput {
     distances: Record<string, number>;
   };
   predictions: Predictions;
+  optimization: OptimizationResult;
   status: 'ok' | 'attention' | 'critical';
   warnings: string[];
   recommendations: RecommendationItem[];
@@ -172,5 +221,6 @@ export interface ModelBundle {
   scaler: ScalerParams;
   scenarioDb: ScenarioRecord[];
   rules: Rules;
+  optimizer: Optimizer;
   metadata: ModelMetadata;
 }

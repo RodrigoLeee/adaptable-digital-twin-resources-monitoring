@@ -1,0 +1,52 @@
+# Camada de mensageria do gêmeo digital — Redpanda (compatível com a API Kafka).
+# Sobe um broker single-node + console web. Tópicos são criados automaticamente
+# pelo produtor/consumidor (auto.create.topics) ou via `rpk topic create`.
+#
+#   docker compose up -d
+#   docker compose exec redpanda rpk topic create workload.events dt.recommendations
+#
+services:
+  redpanda:
+    image: redpandadata/redpanda:v24.2.7
+    container_name: dt-redpanda
+    command:
+      - redpanda
+      - start
+      - --kafka-addr=internal://0.0.0.0:9092,external://0.0.0.0:19092
+      # internal:// é usado por outros containers; external:// pelo host (localhost)
+      - --advertise-kafka-addr=internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr=internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr=internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr=internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr=redpanda:33145
+      - --advertise-rpc-addr=redpanda:33145
+      - --mode=dev-container
+      - --smp=1
+      - --default-log-level=info
+    ports:
+      - "19092:19092"   # Kafka API (host)
+      - "18082:18082"   # HTTP proxy
+      - "18081:18081"   # Schema registry
+      - "9644:9644"     # Admin API
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health | grep -q 'Healthy:.*true'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - redpanda-data:/var/lib/redpanda/data
+
+  console:
+    image: redpandadata/console:v2.7.2
+    container_name: dt-redpanda-console
+    depends_on:
+      - redpanda
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+      KAFKA_SCHEMAREGISTRY_ENABLED: "true"
+      KAFKA_SCHEMAREGISTRY_URLS: http://redpanda:8081
+
+volumes:
+  redpanda-data: {}

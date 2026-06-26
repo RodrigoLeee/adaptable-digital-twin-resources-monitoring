@@ -70,11 +70,39 @@
 </div>
 <br/>
 
+&emsp;A integração evoluiu de um fluxo *pull* — em que o collector fazia *polling* de arquivos parquet gerados ao final das simulações — para um fluxo **orientado a eventos**. Um broker **Redpanda** (compatível com a API Kafka) passa a intermediar a comunicação: um produtor publica continuamente o estado da infraestrutura no tópico `workload.events`, o gêmeo digital consome esse fluxo em tempo real, executa o modelo a cada evento e publica recomendações estruturadas no tópico `dt.recommendations`, além de transmiti-las ao dashboard via SSE. As três camadas (collector, API e dashboard) permanecem, mas a fonte de dados deixa de ser um lote consolidado e passa a ser um stream contínuo, aproximando o sistema de um cenário operacional real.
+
 ## 7. Componentes Serviços Legado
 
 ## 8. Modelagem de Dados
 
 ## 9. Solução Técnica (Design)
+
+&emsp;Esta seção descreve o percurso de design da solução, da caracterização dos padrões de consumo até a operação em tempo real do gêmeo digital. Cada etapa apoia-se na anterior, formando um fluxo coeso entre simulação, análise, modelagem e entrega contínua de recomendações.
+
+### 9.1 Definição dos padrões de consumo
+
+&emsp;O ponto de partida foi caracterizar como uma infraestrutura de nuvem é exercitada na prática. Em vez de um único cenário, definiu-se um espectro de **sete perfis de carga** — de `01_min` a `07_max` — parametrizados sobre uma topologia de referência `m7i.xlarge` (cluster de 100 hosts, cada um com 4 vCPUs, potência *idle* de 70 W e máxima de 200 W). Cada perfil ajusta fatores de fração de tarefas, duração, uso de CPU e memória, varrendo de **10 a 350 tarefas** por execução. Esse leque estabeleceu o vocabulário do projeto: cada padrão de consumo representa um regime operacional distinto que o sistema precisaria reconhecer e tratar.
+
+### 9.2 Simulação no OpenDC
+
+&emsp;Com os perfis definidos, cada um foi submetido ao **OpenDC** sobre a topologia `m7ixlarge`, reproduzindo o comportamento da infraestrutura sob aquela carga. As execuções produziram *traces* detalhados — `tasks.parquet`, `fragments.parquet` e um `summary.json` por workload — capturando submissão, escalonamento e conclusão das tarefas, consumo energético e ocupação de recursos. A simulação transformou os padrões abstratos em **evidência quantitativa e reprodutível**, sem custo de infraestrutura real.
+
+### 9.3 Análise dos resultados
+
+&emsp;A consolidação dos sete cenários revelou o achado que orientaria todo o restante: o cluster de 100 hosts estava **massivamente sobredimensionado**. Em todos os regimes, a utilização de CPU permanecia próxima de 0%, a taxa de conclusão em 100%, a saturação nula, e a energia era dominada pelo consumo *idle* (~70 W por host, ~7 kW de cluster, praticamente independente da carga). Métricas derivadas — `tasks_per_kwh`, `cost_per_task` — evidenciaram o desperdício silencioso, exatamente o tipo de ineficiência que ferramentas genéricas de monitoramento não revelam. Essa análise tornou-se a base de cenários (`scenario_db`) e os limiares de referência (`rules`) do modelo. O detalhamento estatístico e as visualizações estão documentados em `analysis.md`.
+
+### 9.4 Modelo de recomendação
+
+&emsp;De posse dessa evidência, o modelo foi concebido não como um *preditor que ecoa* o resultado simulado, mas como um **otimizador**. A ideia central é usar as simulações como matéria-prima para calcular a configuração ótima de recursos. Dado um workload, o modelo estima a demanda real de compute pela Lei de Little (`concorrência = nº_tarefas × tempo_exec / janela`), converte-a em cores necessários e busca o **menor número de hosts** que atende à demanda dentro de uma banda-alvo de utilização (70%). Como custo e energia crescem monotonicamente com o número de hosts e o SLA é mantido enquanto há capacidade, esse mínimo equivale a **minimizar custo + energia sob SLA**. O resultado é serializado em um pacote portátil de artefatos JSON (`scaler`, `predictor`, `positioner`, `rules`, `scenario_db` e `optimizer`), consumível tanto em Python quanto em Node.js. Para o estado de referência, o modelo recomenda **reduzir de 100 para 4 hosts — uma economia de ~96%** mantendo 100% de conclusão.
+
+### 9.5 Gêmeo digital
+
+&emsp;O modelo foi encapsulado em um **gêmeo digital de três camadas**. O *collector* coleta e normaliza o estado da infraestrutura (CPU, memória, energia); a *API* carrega o pacote do modelo e, a cada estado recebido, retorna uma recomendação estruturada em **JSON** — incluindo o bloco `optimization` com a configuração ótima, a economia projetada e a viabilidade sob SLA, além de recomendações por categoria (capacidade, energia, latência, custo e confiabilidade); e o *dashboard* exibe tudo ao operador em tempo real via SSE. Assim, o gêmeo digital traduz o modelo de otimização em uma **decisão contextualizada e acionável**, adaptável ao perfil de cada cliente.
+
+### 9.6 Camada Kafka de alimentação em tempo real
+
+&emsp;Por fim, para aproximar o sistema de um cenário operacional real, a alimentação deixou de ser por lotes pós-simulação e passou a ser **orientada a eventos**. Um broker **Redpanda** (compatível com a API Kafka) e um **produtor em Python** geram continuamente um workload representativo da topologia, publicando eventos no tópico `workload.events`. O gêmeo digital consome esse fluxo de forma contínua: para cada evento, atualiza seu estado interno, executa o modelo e **emite recomendações dinâmicas** — para o tópico `dt.recommendations` (integrável a dashboards e APIs) e para o dashboard via SSE. Com isso, o sistema deixa de observar apenas o passado consolidado e passa a **recomendar continuamente, com base no comportamento corrente da infraestrutura**, fechando o ciclo de um gêmeo digital adaptável e em tempo real.
 
 ## 10. Componentes Adotados em relação as Táticas Arquiteturais
 

@@ -1,7 +1,7 @@
 {
   "model_version": "1.0.0",
   "topology": "m7i.xlarge",
-  "trained_on": "2026-03-30T11:49:46.501618",
+  "trained_on": "2026-06-15T23:16:55.517558",
   "n_scenarios": 7,
   "feature_cols": [
     "n_unique_tasks",
