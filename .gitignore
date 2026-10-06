@@ -1,2 +1,21 @@
 # Workbench local de simulação OpenDC — não versionar (insumos ficam fora do repo)
 src/opendc-demos-v4/
+
+# OpenDC — artefatos gerados em runtime (reproduzíveis pelo pipeline)
+src/opendc-simulation/workload_traces/
+src/opendc-simulation/datasets/
+src/opendc-simulation/output/
+src/opendc-simulation/figures/
+src/opendc-simulation/OpenDCExperimentRunner/
+
+# Material de recuperação e referências externas
+Recuperar/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.ipynb_checkpoints/

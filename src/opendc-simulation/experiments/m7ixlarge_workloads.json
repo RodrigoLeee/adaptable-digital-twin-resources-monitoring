@@ -1,0 +1,50 @@
+{
+    "name": "m7ixlarge_generated_workloads_experiment",
+    "topologies": [
+        {
+            "pathToFile": "topologies/1.first_experiment/m7ixlarge.json"
+        }
+    ],
+    "workloads": [
+        {
+            "pathToFile": "workload_traces/generated_workloads/01_min",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/02_very_low",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/03_low",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/04_medium",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/05_high",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/06_very_high",
+            "type": "ComputeWorkload"
+        },
+        {
+            "pathToFile": "workload_traces/generated_workloads/07_max_experimental_useful",
+            "type": "ComputeWorkload"
+        }
+    ],
+    "exportModels": [
+        {
+            "exportInterval": 5000,
+            "printFrequency": 1,
+            "filesToExport": [
+                "host",
+                "powerSource",
+                "service",
+                "task"
+            ]
+        }
+    ]
+}

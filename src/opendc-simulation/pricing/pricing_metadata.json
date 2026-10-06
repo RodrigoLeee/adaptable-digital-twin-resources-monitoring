@@ -1,0 +1,11 @@
+{
+    "instance_type": "m7i.xlarge",
+    "provider": "AWS EC2",
+    "region": "us-east-1",
+    "pricing_model": "On-Demand",
+    "price_usd_per_h": 0.1904,
+    "source": "AWS Pricing API (public endpoint, no authentication required)",
+    "date": "2025-04-16",
+    "citation": "Amazon Web Services. Amazon EC2 On-Demand Pricing. Available at: https://aws.amazon.com/ec2/pricing/on-demand/",
+    "bibtex": "@misc{aws_ec2_pricing_2025, author={Amazon Web Services}, title={Amazon EC2 On-Demand Pricing}, year={2025}, url={https://aws.amazon.com/ec2/pricing/on-demand/}, note={Accessed: 2025-04-16}}"
+}
